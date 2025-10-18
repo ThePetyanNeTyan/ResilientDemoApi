@@ -50,7 +50,16 @@ public class ExternalDataController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { error = "Internal server error" });
+            return StatusCode(500, new {error = "Internal server error"});
         }
+    }
+
+    [HttpGet("usd-rate")]
+    [ProducesResponseType(typeof(ExternalDataResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<string>> GetUsdRate([FromQuery] DateTime date)
+    {
+        var xml = await _externalDataService.GetFromCbApiAsync();
+        return Ok(xml);
     }
 }

@@ -1,8 +1,11 @@
-
-using Polly;
-using Polly.Extensions.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
+using Microsoft.Extensions.Resilience;
 using ResilientDemoApi.HttpClients;
+using ResilientDemoApi.Options;
 using ResilientDemoApi.Services;
+using System.Runtime;
+using System.Text;
 
 namespace ResilientDemoApi
 {
@@ -10,12 +13,16 @@ namespace ResilientDemoApi
     {
         public static void Main(string[] args)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.Configure<GeneralOpt>(builder.Configuration.GetSection("GeneralOpt"));
 
             // Add services to the container.
 
             builder.Services.AddControllers();
 
+            //полли
             builder.Services.AddHttpClient<IMyExternalApiClient, MyExternalApiClient>()
                 .AddPolicyHandler(PollyPolicies.GetRetryPolicy())
                 .AddPolicyHandler(PollyPolicies.GetTimeoutPolicy())
