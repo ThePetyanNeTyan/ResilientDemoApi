@@ -24,7 +24,6 @@ namespace ResilientDemoApi
 
             //полли
             builder.Services.AddHttpClient<IMyExternalApiClient, MyExternalApiClient>()
-                .AddPolicyHandler(PollyPolicies.GetRetryPolicy())
                 .AddPolicyHandler(PollyPolicies.GetTimeoutPolicy())
                 .AddPolicyHandler(PollyPolicies.GetCircuitBreakerPolicy())
                 .AddPolicyHandler(PollyPolicies.GetBulkheadPolicy());

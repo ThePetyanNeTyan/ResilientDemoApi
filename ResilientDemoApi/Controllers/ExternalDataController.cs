@@ -15,6 +15,7 @@ public class ExternalDataController : ControllerBase
     }
 
     [HttpGet]
+    [Retry(5)]
     [ProducesResponseType(typeof(ExternalDataResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ExternalDataResponse>> GetExternalData()
@@ -35,6 +36,7 @@ public class ExternalDataController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Retry(5)]
     [ProducesResponseType(typeof(ExternalDataResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ExternalDataResponse>> GetTimeOut()
@@ -55,6 +57,7 @@ public class ExternalDataController : ControllerBase
     }
 
     [HttpGet("usd-rate")]
+    [Retry(5)]
     [ProducesResponseType(typeof(ExternalDataResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<string>> GetUsdRate([FromQuery] DateTime date)
